@@ -1,5 +1,11 @@
 import socket
 
+def modString(s: str) -> str:
+    reversedMsg = s[::-1]
+    swappedMsg = reversedMsg.swapcase()
+
+    return swappedMsg
+
 def server():
     try:
         ss = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -22,8 +28,15 @@ def server():
     msg = "Welcome to CS 352!"
     csockid.send(msg.encode('utf-8'))
 
+    # Receive message from client
     client_msg = csockid.recv(100).decode('utf-8')
     print(f'[S]: got a message from client {client_msg}')
+
+    # Send modified message back to client
+    modified_msg = modString(client_msg)
+    csockid.send(modified_msg.encode("utf-8"))
+    print("[S]: sent modified message back to client")
+
     # Close the server socket
     ss.close()
     exit()

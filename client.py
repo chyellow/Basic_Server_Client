@@ -20,8 +20,14 @@ def client():
     data_from_server=cs.recv(100)
     print("[C]: Data received from server: {}".format(data_from_server.decode('utf-8')))
 
+    # send message to server
     msg = 'man you hella ugly!!'
     cs.send(msg.encode('utf-8'))
+
+    # Receive modified message from server
+    modified_msg = cs.recv(100).decode("utf-8")
+    print(f"[C]: Server sent back {modified_msg}")
+    
     # close the client socket
     cs.close()
     exit()
