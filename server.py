@@ -29,13 +29,14 @@ def server():
     csockid.send(msg.encode('utf-8'))
 
     # Receive message from client
-    client_msg = csockid.recv(100).decode('utf-8')
-    print(f'[S]: got a message from client {client_msg}')
+    while True:
+        data = csockid.recv(1024).decode("utf-8")
+        if not data:
+            break # No more data :(
+    
+        response = modString(data)
 
-    # Send modified message back to client
-    modified_msg = modString(client_msg)
-    csockid.send(modified_msg.encode("utf-8"))
-    print("[S]: sent modified message back to client")
+        csockid.send(response.encode("utf-8"))
 
     # Close the server socket
     ss.close()

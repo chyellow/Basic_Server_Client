@@ -21,12 +21,23 @@ def client():
     print("[C]: Data received from server: {}".format(data_from_server.decode('utf-8')))
 
     # send message to server
-    msg = 'man you hella ugly!!'
-    cs.send(msg.encode('utf-8'))
+
+    with open("in_proj.txt", "r") as infile, open("out_proj.txt", "w") as outfile:
+        for line in infile:
+            line = line.strip()
+            if not line:
+                continue # Skip whitespace
+
+            cs.send(line.encode("utf-8"))
+
+            msg_from_server = cs.recv(1024).decode("utf-8")
+
+            outfile.write(msg_from_server + "\n")
+
+            print(f"[C]: Sent line {line}, then received {msg_from_server}")
+
 
     # Receive modified message from server
-    modified_msg = cs.recv(100).decode("utf-8")
-    print(f"[C]: Server sent back {modified_msg}")
     
     # close the client socket
     cs.close()
