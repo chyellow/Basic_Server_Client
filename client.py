@@ -13,7 +13,7 @@ def client():
     localhost_addr = socket.gethostbyname(socket.gethostname())
 
     # connect to the server on local machine
-    server_binding = (localhost_addr, port)
+    server_binding = ("128.6.13.177", port)
     cs.connect(server_binding)
 
     # Receive data from the server
